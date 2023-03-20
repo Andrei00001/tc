@@ -1,12 +1,30 @@
 from rest_framework import serializers
-class SizeSerializer(serializers.Serializer):
-    title = serializers.CharField()
-    price = serializers.IntegerField()
+
+from app.models import Price, Size, Product
 
 
-class ProductSerializer(serializers.Serializer):
-    title = serializers.CharField()
-    sku = serializers.CharField()
+class SizeSerializer(serializers.ModelSerializer):
     price = serializers.IntegerField()
-    brand_name = serializers.CharField()
+
+    class Meta:
+        model = Size
+        fields = (
+            'title',
+            'price',
+        )
+
+
+class ProductSerializer(serializers.ModelSerializer):
     size = SizeSerializer(many=True)
+    brand_name = serializers.CharField()
+    price = serializers.IntegerField(source='min_price')
+
+    class Meta:
+        model = Product
+        fields = (
+            'title',
+            'sku',
+            'price',
+            'brand_name',
+            'size',
+        )

@@ -36,6 +36,6 @@ urlpatterns = [
     path('api/auth/', include('djoser.urls')),
     re_path(r'^auth/', include('djoser.urls.authtoken')),
 
-    path('get_product/<str:sku>/', views.ProductView.as_view()),
+    path('get_product/', views.ProductView.as_view({'get': 'list'})),
 ]
 
